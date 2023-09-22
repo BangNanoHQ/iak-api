@@ -1,4 +1,5 @@
 use thiserror::Error;
+use std::fmt;
 use serde::{Deserialize, Deserializer, Serialize};
 
 
@@ -42,6 +43,21 @@ pub enum ProductType {
     Other(String)
 }
 
+impl fmt::Display for ProductType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ProductType::Pulsa => write!(f, "pulsa"),
+            ProductType::Data => write!(f, "data"),
+            ProductType::Etoll => write!(f, "etoll"),
+            ProductType::Voucher => write!(f, "voucher"),
+            ProductType::Game => write!(f, "game"),
+            ProductType::Pln => write!(f, "pln"),
+            ProductType::International => write!(f, "international"),
+            ProductType::Other(s) => write!(f, "{}", s),
+        }
+    }
+}
+
 impl<'de> Deserialize<'de> for ProductType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -78,6 +94,7 @@ pub enum ProductTypeOperator {
     #[serde(rename = "international")]
     International,
 }
+
 
 
 #[derive(Serialize, PartialEq, Debug)]
