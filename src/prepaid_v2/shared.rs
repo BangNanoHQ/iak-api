@@ -344,6 +344,8 @@ pub enum ResponseCode {
 
 #[derive(Serialize, PartialEq, Debug)]
 pub enum ResponseStatus {
+    #[serde(rename = "0")]
+    Process,
     #[serde(rename = "1")]
     Success,
     #[serde(rename = "2")]
@@ -362,6 +364,7 @@ impl<'de> Deserialize<'de> for ResponseStatus {
                     serde::de::Error::custom(format!("invalid number: {:?}", n))
                 })?;
                 match num {
+                    0 => Ok(ResponseStatus::Process),
                     1 => Ok(ResponseStatus::Success),
                     2 => Ok(ResponseStatus::Failed),
                     _ => Err(serde::de::Error::custom(format!(
@@ -371,6 +374,7 @@ impl<'de> Deserialize<'de> for ResponseStatus {
                 }
             }
             serde_json::Value::String(s) => match s.as_str() {
+                "0" => Ok(ResponseStatus::Process),
                 "1" => Ok(ResponseStatus::Success),
                 "2" => Ok(ResponseStatus::Failed),
                 _ => Err(serde::de::Error::custom(format!(
