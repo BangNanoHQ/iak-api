@@ -18,10 +18,15 @@ pub struct InquiryPlnResponse {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct InquiryPlnData {
     pub status: ResponseStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub customer_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub meter_no: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub subscriber_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub segment_power: Option<String>,
     pub message: String,
     pub rc: ResponseCode,
