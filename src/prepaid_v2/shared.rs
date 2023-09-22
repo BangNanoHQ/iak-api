@@ -342,4 +342,47 @@ pub enum ResponseCode {
     InquiryNotNeeded,
 }
 
+#[derive(Serialize, PartialEq, Debug)]
+pub enum ResponseStatus {
+    #[serde(rename = "1")]
+    Success,
+    #[serde(rename = "2")]
+    Failed,
+}
+
+impl<'de> Deserialize<'de> for ResponseStatus {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let value: serde_json::Value = Deserialize::deserialize(deserializer)?;
+        match value {
+            serde_json::Value::Number(n) => {
+                let num = n.as_u64().ok_or_else(|| {
+                    serde::de::Error::custom(format!("invalid number: {:?}", n))
+                })?;
+                match num {
+                    1 => Ok(ResponseStatus::Success),
+                    2 => Ok(ResponseStatus::Failed),
+                    _ => Err(serde::de::Error::custom(format!(
+                        "invalid ResponseStatus value: {}",
+                        num
+                    ))),
+                }
+            }
+            serde_json::Value::String(s) => match s.as_str() {
+                "1" => Ok(ResponseStatus::Success),
+                "2" => Ok(ResponseStatus::Failed),
+                _ => Err(serde::de::Error::custom(format!(
+                    "invalid ResponseStatus value: {}",
+                    s
+                ))),
+            },
+            _ => Err(serde::de::Error::custom(format!(
+                "invalid ResponseStatus value: {:?}",
+                value
+            ))),
+        }
+    }
+}
 
