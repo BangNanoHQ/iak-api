@@ -7,8 +7,8 @@ use uuid::Uuid;
 #[tokio::main]
 async fn main() -> Result<(), Error> {
   // let ref_id: Uuid = uuid::Uuid::new_v4();
-  let ref_id = Uuid::from_str("c8265814-166e-4660-a84a-69f8a26be2d5").unwrap();
-  let result = prepaid_v2::topup("pulsa100000".to_string(), ref_id, "081850000000".to_string()).await.unwrap();
+  let ref_id = Uuid::from_str("0327d0a7-782d-5cd4-926d-08fdebbef538").unwrap();
+  let result = prepaid_v2::topup("hpln20000".to_string(), ref_id, "081850000000".to_string()).await.unwrap();
   println!("topup {:?}", result );
   // json
 

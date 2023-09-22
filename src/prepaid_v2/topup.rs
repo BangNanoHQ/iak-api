@@ -38,6 +38,12 @@ pub struct TopupData {
     pub message: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub sn: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pin: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub balance: Option<u32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -139,5 +139,24 @@
       "envFile": "${workspaceFolder}/.env",
       "cwd": "${workspaceFolder}"
     },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'prepaid_check_status'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=prepaid_check_status",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_check_status",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
   ]
 }
