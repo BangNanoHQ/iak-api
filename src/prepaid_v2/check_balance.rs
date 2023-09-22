@@ -23,7 +23,7 @@ pub struct BalanceResponse {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct BalanceData {
-    pub balance: Option<u32>,
+    pub balance: u32,
     pub rc: ResponseCode,
     pub message: String,
     pub status: Option<u32>,
