@@ -1,0 +1,143 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "envFile": "${workspaceFolder}/.env",
+  "configurations": [
+
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'iak-api'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "iak-api",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'prepaid_price_list'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=prepaid_price_list",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_price_list",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'prepaid_check_balance'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=prepaid_check_balance",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_check_balance",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'prepaid_inquiry_pln'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=prepaid_inquiry_pln",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_inquiry_pln",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'prepaid_inquiry_ovo'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=prepaid_inquiry_ovo",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_inquiry_ovo",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in example 'prepaid_price_list'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--example=prepaid_price_list",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_price_list",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'prepaid_topup'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=prepaid_topup",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "prepaid_topup",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
+  ]
+}
