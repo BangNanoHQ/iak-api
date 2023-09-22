@@ -50,6 +50,10 @@ pub struct TopupData {
     pub tr_id: Option<u32>,
     
     pub rc: ResponseCode,
+
+    // used if it is a callback
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sign: Option<String>,
 }
 
 
