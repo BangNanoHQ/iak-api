@@ -196,5 +196,24 @@
       "envFile": "${workspaceFolder}/.env",
       "cwd": "${workspaceFolder}"
     },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'postpaid_payment'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=postpaid_payment",
+          "--package=iak-api"
+        ],
+        "filter": {
+          "name": "postpaid_payment",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    },
   ]
 }

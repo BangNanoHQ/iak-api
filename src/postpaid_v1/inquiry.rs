@@ -1,4 +1,4 @@
-use super::{api_url, ResponseCode, ProductType, ProductStatus};
+use super::{api_url, ResponseCode, ProductType, ProductStatus, PaymentData};
 use crate::{Error, username, api_key, sign_hash};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -6,34 +6,10 @@ use std::path::Path;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct InquiryResponse {
-    pub data: Option<InquiryData>,
+    pub data: Option<PaymentData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct InquiryData {
-    pub tr_id: Option<i32>,
-    pub code: Option<String>,
-    pub datetime: Option<String>, // transaction time on BPJS
 
-    // make it standardized like prepaid V2. 
-    // this means that when this is shown to end users, it will show as customer_id, but it will parse it as hp
-    #[serde(rename(deserialize = "hp"))]
-    pub customer_id: Option<String>,
-    
-    pub tr_name: Option<String>, // bill account name
-    pub period: Option<String>, // bill period
-    pub nominal: Option<i32>, // bill nominal
-    pub admin: Option<i32>, // admin fee
-    pub ref_id: Option<Uuid>,
-    pub response_code: Option<ResponseCode>,    
-    pub message: Option<String>,
-    pub price: Option<i32>, // Total price that must be paid (nominal + admin fee)
-    pub selling_price: Option<i32>, // deducted balance. how much IAK charges.
-    pub balance: Option<i32>, // on BPJS. Client remaining balance
-    pub noref: Option<String>, // on BPJS Biller reference number (if exists)
-    
-    pub desc: Option<serde_json::Value>,
-}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PrivInquiryReqBody {
@@ -100,7 +76,7 @@ pub struct CustomDenomEmoneyDesc {
 }
 
 // post request to get the inquiry
-pub async fn inquiry(req_body: InquiryReqBody) -> Result<InquiryData, Error> {
+pub async fn inquiry(req_body: InquiryReqBody) -> Result<PaymentData, Error> {
     let path: Vec<String> = vec!["bill/check".to_string()];
 
     let url = Path::new(api_url())
