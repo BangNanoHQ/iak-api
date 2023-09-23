@@ -1,4 +1,4 @@
-use super::{api_url, ResponseCode, ProductType};
+use super::{api_url, ResponseCode, ProductType, ProductStatus};
 use crate::{Error, username, api_key, sign_hash};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
@@ -20,7 +20,7 @@ pub struct PricelistData {
 pub struct Product {
     pub code: String,
     pub name: String,
-    pub status: u32,
+    pub status: ProductStatus,
     pub fee: u32,
     pub komisi: u32, 
     pub r#type: ProductType,
@@ -62,7 +62,7 @@ pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistDat
                 commands: "pricelist-pasca".to_string(),
                 username: username(),
                 sign: signature,
-                status: "active".to_string(),
+                status: "all".to_string(),
             })
             .unwrap(),
         )

@@ -1,3 +1,4 @@
+use serde_repr::Serialize_repr;
 use thiserror::Error;
 use std::fmt;
 use serde::{Deserialize, Deserializer, Serialize};
@@ -345,14 +346,12 @@ pub enum ResponseCode {
     InquiryNotNeeded,
 }
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize_repr, PartialEq, Debug)]
+#[repr(u8)]
 pub enum ResponseStatus {
-    #[serde(rename = "0")]
-    Process,
-    #[serde(rename = "1")]
-    Success,
-    #[serde(rename = "2")]
-    Failed,
+    Process = 0,
+    Success = 1,
+    Failed = 2,
 }
 
 impl<'de> Deserialize<'de> for ResponseStatus {

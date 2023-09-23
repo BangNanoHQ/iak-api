@@ -1,3 +1,7 @@
+use serde::{Serialize, Deserialize, Deserializer};
+use serde_repr::*;
+use std::fmt;
+
 // DEV postpaid V1
 pub const DEV_POSTPAID_V1: &str = "https://testpostpaid.mobilepulsa.net/api/v1";
 // PROD postpaid V1
@@ -5,7 +9,7 @@ pub const PROD_POSTPAID_V1: &str = "https://mobilepulsa.net/api/v1";
 
 
 
-use serde::{Serialize, Deserialize};
+
 
 // RESPONSE CODE	DESCRIPTION	STATUS	SOLUTION
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
@@ -195,4 +199,82 @@ pub enum ProductType{
   Pendidikan,
   #[serde(rename = "asuransi")]
   Asuransi,
+  #[serde(rename = "iuran")]
+  Iuran,
+  Other(String),
 }
+
+impl fmt::Display for ProductType {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+      match self {
+          ProductType::Pdam => write!(f, "pdam"),
+          ProductType::Bpjs => write!(f, "bpjs"),
+          ProductType::Internet => write!(f, "internet"),
+          ProductType::PajakKendaraan => write!(f, "pajak-kendaraan"),
+          ProductType::Finance => write!(f, "finance"),
+          ProductType::Hp => write!(f, "hp"),
+          ProductType::Estate => write!(f, "estate"),
+          ProductType::Emoney => write!(f, "emoney"),
+          ProductType::Kereta => write!(f, "kereta"),
+          ProductType::Tv => write!(f, "tv"),
+          ProductType::Airline => write!(f, "airline"),
+          ProductType::O2o => write!(f, "o2o"),
+          ProductType::Pbb => write!(f, "pbb"),
+          ProductType::Gas => write!(f, "gas"),
+          ProductType::PajakDaerah => write!(f, "pajak-daerah"),
+          ProductType::Pln => write!(f, "pln"),
+          ProductType::Pasar => write!(f, "pasar"),
+          ProductType::Retribusi => write!(f, "retribusi"),
+          ProductType::Pendidikan => write!(f, "pendidikan"),
+          ProductType::Asuransi => write!(f, "asuransi"),
+          ProductType::Iuran => write!(f, "iuran"),
+          ProductType::Other(s) => write!(f, "{}", s),
+      }
+  }
+}
+
+#[derive(Serialize, PartialEq, Debug)]
+// #[repr(u8)]
+pub enum ProductStatus {
+    #[serde(rename = "active")]
+    Active = 1,
+    #[serde(rename = "non active")]
+    NonActive = 4,
+}
+
+impl<'de> Deserialize<'de> for ProductStatus {
+  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+  where
+      D: Deserializer<'de>,
+  {
+      let value: serde_json::Value = Deserialize::deserialize(deserializer)?;
+      match value {
+          serde_json::Value::Number(n) => {
+              let num = n.as_u64().ok_or_else(|| {
+                  serde::de::Error::custom(format!("invalid number: {:?}", n))
+              })?;
+              match num {
+                  1 => Ok(ProductStatus::Active),
+                  4 => Ok(ProductStatus::NonActive),
+                  _ => Err(serde::de::Error::custom(format!(
+                      "invalid ProductStatus value: {}",
+                      num
+                  ))),
+              }
+          }
+          serde_json::Value::String(s) => match s.as_str() {
+              "1" => Ok(ProductStatus::Active),
+              "4" => Ok(ProductStatus::NonActive),
+              _ => Err(serde::de::Error::custom(format!(
+                  "invalid ProductStatus value: {}",
+                  s
+              ))),
+          },
+          _ => Err(serde::de::Error::custom(format!(
+              "invalid ProductStatus value: {:?}",
+              value
+          ))),
+      }
+  }
+}
+

@@ -63,7 +63,7 @@ pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistDat
             serde_json::to_string(&PricelistReqBody {
                 username: username(),
                 sign: signature,
-                status: "active".to_string(),
+                status: "all".to_string(),
             })
             .unwrap(),
         )
