@@ -9,20 +9,6 @@ pub const DEV_PREPAID_V2: &str = "https://prepaid.iak.dev/api";
 pub const PROD_PREPAID_V2: &str = "https://prepaid.iak.id/api";
 
 
-#[derive(Error, Debug)]
-pub enum Error {
-    #[error("Response error: `{0}`")]
-    ResponseError(String),
-
-    #[error("Decryption error: `{0}`")]
-    DecryptionError(String),
-
-    #[error("Deserialization error: `{0}`")]
-    DeserializationError(String),
-
-    #[error("unknown model error")]
-    Unknown,
-}
 
 #[derive(Serialize, PartialEq, Debug)]
 pub enum ProductType {

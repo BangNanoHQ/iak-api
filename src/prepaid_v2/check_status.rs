@@ -1,8 +1,8 @@
 use std::path::Path;
-use crate::{Error, ResponseStatus, TopupData, TopupResponse};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use crate::{ResponseCode, username, api_key, sign_hash, api_url};
+use super::{api_url, TopupResponse, TopupData};
+use crate::{Error, username, api_key, sign_hash};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CheckStatusReqBody {

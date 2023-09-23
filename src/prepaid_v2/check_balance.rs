@@ -1,7 +1,7 @@
 use std::path::Path;
-use crate::Error;
 use serde::{Deserialize, Serialize};
-use crate::{ResponseCode, username, api_key, sign_hash, api_url};
+use super::{api_url, ResponseCode};
+use crate::{Error, username, api_key, sign_hash};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CheckBalanceReqBody {

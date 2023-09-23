@@ -1,7 +1,8 @@
 use std::path::Path;
-use crate::{Error, ResponseStatus};
+use super::ResponseStatus;
 use serde::{Deserialize, Serialize};
-use crate::{ResponseCode, username, api_key, sign_hash, api_url};
+use super::{ResponseCode, api_url};
+use crate::{Error, username, api_key, sign_hash};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct InquiryOvoReqBody {

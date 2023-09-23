@@ -1,9 +1,7 @@
-use std::path::Path;
-use serde::{Deserialize, Serialize};
-use super::{ResponseCode, api_url, ProductType};
+use super::{api_url, ResponseCode, ProductType};
 use crate::{Error, username, api_key, sign_hash};
-
-
+use serde::{Deserialize, Serialize};
+use std::path::Path;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PricelistResponse {
@@ -12,28 +10,28 @@ pub struct PricelistResponse {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PricelistData {
-    pub pricelist: Option<Vec<Product>>,
-    pub rc: ResponseCode,
-    pub message: String,
+    pub pasca: Option<Vec<Product>>,
+    pub response_code: Option<ResponseCode>,
+    pub message: Option<String>,
     pub status: Option<u32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Product {
-    pub product_code: String,
-    pub product_description: String,
-    pub product_nominal: String,
-    pub product_details: String,
-    pub product_price: u32,
-    pub product_type: ProductType,
-    pub active_period: String,
-    pub status: String,
-    pub icon_url: String,
-    pub product_category: ProductType,
+    pub code: String,
+    pub name: String,
+    pub status: u32,
+    pub fee: u32,
+    pub komisi: u32, 
+    pub r#type: ProductType,
+    pub category: String,
+    pub province: Option<String>, // 34 provinces in indonesia, only for PDAM
+
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PricelistReqBody {
+    pub commands: String, 
     pub username: String,
     pub sign: String,
     pub status: String,
@@ -41,7 +39,7 @@ pub struct PricelistReqBody {
 
 // post request to get the pricelist
 pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistData, Error> {
-    let mut path: Vec<String> = vec!["pricelist".to_string()];
+    let mut path: Vec<String> = vec!["bill/check".to_string()];
 
     if let Some(product_type_path) = product_type_path {
         path.push(product_type_path.to_string());
@@ -61,6 +59,7 @@ pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistDat
         .header("Content-Type", "application/json")
         .body(
             serde_json::to_string(&PricelistReqBody {
+                commands: "pricelist-pasca".to_string(),
                 username: username(),
                 sign: signature,
                 status: "active".to_string(),
