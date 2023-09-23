@@ -13,7 +13,7 @@ pub struct PricelistData {
     pub pasca: Option<Vec<Product>>,
     pub response_code: Option<ResponseCode>,
     pub message: Option<String>,
-    pub status: Option<u32>,
+    pub status: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -21,8 +21,8 @@ pub struct Product {
     pub code: String,
     pub name: String,
     pub status: ProductStatus,
-    pub fee: u32,
-    pub komisi: u32, 
+    pub fee: i32,
+    pub komisi: i32, 
     pub r#type: ProductType,
     pub category: String,
     pub province: Option<String>, // 34 provinces in indonesia, only for PDAM

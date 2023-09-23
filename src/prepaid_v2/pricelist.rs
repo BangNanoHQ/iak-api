@@ -15,7 +15,7 @@ pub struct PricelistData {
     pub pricelist: Option<Vec<Product>>,
     pub rc: ResponseCode,
     pub message: String,
-    pub status: Option<u32>,
+    pub status: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -24,7 +24,7 @@ pub struct Product {
     pub product_description: String,
     pub product_nominal: String,
     pub product_details: String,
-    pub product_price: u32,
+    pub product_price: i32,
     pub product_type: ProductType,
     pub active_period: String,
     pub status: String,

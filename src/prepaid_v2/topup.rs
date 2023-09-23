@@ -34,7 +34,7 @@ pub struct TopupData {
     pub customer_id: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub price: Option<u32>,
+    pub price: Option<i32>,
 
     pub message: String,
 
@@ -45,10 +45,10 @@ pub struct TopupData {
     pub pin: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub balance: Option<u32>,
+    pub balance: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub tr_id: Option<u32>,
+    pub tr_id: Option<i32>,
     
     pub rc: ResponseCode,
 
