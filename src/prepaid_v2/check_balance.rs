@@ -3,23 +3,23 @@ use serde::{Deserialize, Serialize};
 use super::{api_url, ResponseCode};
 use crate::{Error, username, api_key, sign_hash};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CheckBalanceReqBody {
     pub username: String,
     pub sign: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BalanceResponse {
     pub data: Option<BalanceData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BalanceData {
-    pub balance: i32,
+    pub balance: i64,
     pub rc: ResponseCode,
     pub message: String,
-    pub status: Option<i32>,
+    pub status: Option<i64>,
 }
 
 

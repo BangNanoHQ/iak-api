@@ -12,7 +12,7 @@ pub const PROD_POSTPAID_V1: &str = "https://mobilepulsa.net/api/v1";
 
 
 // RESPONSE CODE	DESCRIPTION	STATUS	SOLUTION
-#[derive(Serialize, Deserialize, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ResponseCode {
   // 00	PAYMENT / INQUIRY SUCCESS	Success	Your inquiry or payment is successfully processed.
   #[serde(rename = "00")]
@@ -157,7 +157,7 @@ pub enum ResponseCode {
   UndefinedResponseCode,
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ProductType{
   #[serde(rename = "pdam")]
   Pdam,
@@ -233,7 +233,7 @@ impl fmt::Display for ProductType {
   }
 }
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug, Clone)]
 // #[repr(u8)]
 pub enum ProductStatus {
     #[serde(rename = "active")]

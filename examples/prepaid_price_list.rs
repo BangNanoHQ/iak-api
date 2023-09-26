@@ -5,7 +5,7 @@ use iak_api::prepaid_v2;
 #[tokio::main]
 async fn main() -> Result<(), Error> {
   let product_type_path = "data/telkomsel".to_string();
-  let products = prepaid_v2::pricelist(Some(product_type_path)).await.unwrap();
+  let products = prepaid_v2::pricelist(Some(product_type_path), None).await.unwrap();
   println!("price list {:?}", products );
 
   // print products in json

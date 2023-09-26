@@ -16,15 +16,15 @@ pub enum Error {
 }
 
 pub fn username() -> String {
-    match std::env::var("USERNAME") {
+    match std::env::var("IAK_API_USERNAME") {
         Ok(val) => val,
-        Err(_e) => panic!("USERNAME is not set"),
+        Err(_e) => panic!("IAK_API_USERNAME is not set"),
     }
 }
 pub fn api_key() -> String {
-    match std::env::var("API_KEY") {
+    match std::env::var("IAK_API_KEY") {
         Ok(val) => val,
-        Err(_e) => panic!("API_KEY is not set"),
+        Err(_e) => panic!("IAK_API_KEY is not set"),
     }
 }
 

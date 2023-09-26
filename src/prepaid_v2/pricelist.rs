@@ -5,26 +5,26 @@ use crate::{Error, username, api_key, sign_hash};
 
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PricelistResponse {
     pub data: Option<PricelistData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PricelistData {
     pub pricelist: Option<Vec<Product>>,
     pub rc: ResponseCode,
     pub message: String,
-    pub status: Option<i32>,
+    pub status: Option<i64>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Product {
     pub product_code: String,
     pub product_description: String,
     pub product_nominal: String,
     pub product_details: String,
-    pub product_price: i32,
+    pub product_price: i64,
     pub product_type: ProductType,
     pub active_period: String,
     pub status: String,
@@ -32,15 +32,16 @@ pub struct Product {
     pub product_category: ProductType,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PricelistReqBody {
     pub username: String,
     pub sign: String,
     pub status: String,
 }
 
-// post request to get the pricelist
-pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistData, Error> {
+// post request to get the pricelist.
+// if product_code is supplied, it will filter based on the product_code
+pub async fn pricelist(product_type_path: Option<String>, product_code: Option<String>) -> Result<PricelistData, Error> {
     let mut path: Vec<String> = vec!["pricelist".to_string()];
 
     if let Some(product_type_path) = product_type_path {
@@ -77,7 +78,20 @@ pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistDat
             res.status()
         )));
     }
-    let body = res.text().await.unwrap();
-    let result: PricelistResponse = serde_json::from_str(&body).unwrap();
+    let body = res.text().await.map_err(|e| Error::ResponseError(e.to_string()))?;;
+    let result: PricelistResponse = serde_json::from_str(&body).map_err(|e| Error::ResponseError(e.to_string()))?;
+
+    if let Some(product_code) = product_code {
+        let data = result.data.clone().unwrap();
+        let pricelist = data.pricelist.unwrap_or_default();
+        let filtered = pricelist.into_iter().filter(|p| p.product_code == product_code).collect::<Vec<Product>>();
+        return Ok(PricelistData {
+            pricelist: Some(filtered),
+            status: data.status,
+            rc: data.rc,
+            message: data.message,
+        });
+    }
+
     Ok(result.data.unwrap())
 }

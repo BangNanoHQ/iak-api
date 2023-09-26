@@ -4,19 +4,19 @@ use serde::{Deserialize, Serialize};
 use super::{ResponseCode, api_url};
 use crate::{Error, username, api_key, sign_hash};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InquiryOvoReqBody {
     pub username: String,
     pub customer_id: String,
     pub sign: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InquiryOvoResponse {
     pub data: Option<InquiryOvoData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InquiryOvoData {
     pub status: ResponseStatus,
     #[serde(skip_serializing_if = "Option::is_none")]

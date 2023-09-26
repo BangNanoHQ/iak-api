@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use std::path::Path;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CheckStatusResponse {
     pub data: Option<PaymentData>,
 }
@@ -13,7 +13,7 @@ pub struct CheckStatusResponse {
 
 
 // made the fields to to be similar to V2 on prepaid and made it to english
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CheckStatusReqBody{  
     pub commands: String,
     pub ref_id: Uuid,

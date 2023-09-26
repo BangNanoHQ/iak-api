@@ -3,33 +3,33 @@ use crate::{Error, username, api_key, sign_hash};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PricelistResponse {
     pub data: Option<PricelistData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PricelistData {
     pub pasca: Option<Vec<Product>>,
     pub response_code: Option<ResponseCode>,
     pub message: Option<String>,
-    pub status: Option<i32>,
+    pub status: Option<i64>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Product {
     pub code: String,
     pub name: String,
     pub status: ProductStatus,
-    pub fee: i32,
-    pub komisi: i32, 
+    pub fee: i64,
+    pub komisi: i64, 
     pub r#type: ProductType,
     pub category: String,
     pub province: Option<String>, // 34 provinces in indonesia, only for PDAM
 
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PricelistReqBody {
     pub commands: String, 
     pub username: String,

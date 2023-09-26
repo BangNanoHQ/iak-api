@@ -4,14 +4,14 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use std::path::Path;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PaymentResponse {
     pub data: Option<PaymentData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PaymentData {
-    pub tr_id: Option<i32>,
+    pub tr_id: Option<i64>,
     pub code: Option<String>,
     pub datetime: Option<String>, // transaction time on BPJS
 
@@ -22,14 +22,14 @@ pub struct PaymentData {
     
     pub tr_name: Option<String>, // bill account name
     pub period: Option<String>, // bill period
-    pub nominal: Option<i32>, // bill nominal
-    pub admin: Option<i32>, // admin fee
+    pub nominal: Option<i64>, // bill nominal
+    pub admin: Option<i64>, // admin fee
     pub ref_id: Option<Uuid>,
     pub response_code: Option<ResponseCode>,    
     pub message: Option<String>,
-    pub price: Option<i32>, // Total price that must be paid (nominal + admin fee)
-    pub selling_price: Option<i32>, // deducted balance. how much IAK charges.
-    pub balance: Option<i32>, // on BPJS. Client remaining balance in IAK
+    pub price: Option<i64>, // Total price that must be paid (nominal + admin fee)
+    pub selling_price: Option<i64>, // deducted balance. how much IAK charges.
+    pub balance: Option<i64>, // on BPJS. Client remaining balance in IAK
     pub noref: Option<String>, // on BPJS Biller reference number (if exists)
     
     pub desc: Option<serde_json::Value>,
@@ -37,7 +37,7 @@ pub struct PaymentData {
 
 
 // made the fields to to be similar to V2 on prepaid and made it to english
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PaymentReqBody{  
     pub commands: String,
     pub tr_id: u32,

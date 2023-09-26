@@ -11,7 +11,7 @@ pub const PROD_PREPAID_V2: &str = "https://prepaid.iak.id/api";
 
 
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub enum ProductType {
     #[serde(rename = "pulsa")]
     Pulsa,
@@ -64,7 +64,7 @@ impl<'de> Deserialize<'de> for ProductType {
     }
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ProductTypeOperator {
     #[serde(rename = "pulsa")]
     Pulsa(PulsaOperator),
@@ -84,7 +84,7 @@ pub enum ProductTypeOperator {
 
 
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub enum PulsaOperator{
     #[serde(rename = "axis")]
     Axis,
@@ -125,7 +125,7 @@ impl<'de> Deserialize<'de> for PulsaOperator {
 
 
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub enum DataOperator {
     #[serde(rename = "axis_paket_internet")]
     AxisPaketInternet,
@@ -166,7 +166,7 @@ impl<'de> Deserialize<'de> for DataOperator {
 
 
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub enum EtollOperator{
     #[serde(rename = "dana")]
     Dana,
@@ -209,7 +209,7 @@ impl<'de> Deserialize<'de> for EtollOperator {
 }
 
 
-#[derive(Serialize, PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub enum VoucherOperator{
     #[serde(rename = "alfamart")]
     Alfamart,
@@ -250,14 +250,14 @@ impl<'de> Deserialize<'de> for VoucherOperator {
 
 
 
-#[derive(Serialize, Deserialize, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 #[non_exhaustive]
 pub enum PlnOperator {
     #[serde(rename = "pln")]
     Pln,
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ResponseCode {
     // 00	SUCCESS	Success	Transaction success.
     #[serde(rename = "00")]
@@ -346,7 +346,7 @@ pub enum ResponseCode {
     InquiryNotNeeded,
 }
 
-#[derive(Serialize_repr, PartialEq, Debug)]
+#[derive(Serialize_repr, PartialEq, Debug, Clone)]
 #[repr(u8)]
 pub enum ResponseStatus {
     Process = 0,

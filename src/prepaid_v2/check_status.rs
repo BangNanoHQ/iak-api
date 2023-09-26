@@ -4,7 +4,7 @@ use uuid::Uuid;
 use super::{api_url, TopupResponse, TopupData};
 use crate::{Error, username, api_key, sign_hash};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CheckStatusReqBody {
     pub username: String,
     pub ref_id: String,

@@ -5,7 +5,7 @@ use uuid::Uuid;
 use super::{ResponseCode, api_url};
 use crate::{Error, username, api_key, sign_hash};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TopupReqBody {
     pub username: String,
     pub ref_id: String,
@@ -14,12 +14,12 @@ pub struct TopupReqBody {
     pub sign: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TopupResponse {
     pub data: Option<TopupData>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TopupData {
     
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -34,7 +34,7 @@ pub struct TopupData {
     pub customer_id: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub price: Option<i32>,
+    pub price: Option<i64>,
 
     pub message: String,
 
@@ -45,10 +45,10 @@ pub struct TopupData {
     pub pin: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub balance: Option<i32>,
+    pub balance: Option<i64>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub tr_id: Option<i32>,
+    pub tr_id: Option<i64>,
     
     pub rc: ResponseCode,
 

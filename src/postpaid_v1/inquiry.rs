@@ -4,14 +4,14 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use std::path::Path;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InquiryResponse {
     pub data: Option<PaymentData>,
 }
 
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PrivInquiryReqBody {
     pub commands: String, 
     pub username: String,
@@ -44,7 +44,7 @@ impl From<InquiryReqBody> for PrivInquiryReqBody {
 }
 
 // made the fields to to be similar to V2 on prepaid and made it to english
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InquiryReqBody{  
     pub product_code: String,
     
@@ -70,9 +70,9 @@ pub struct InquiryReqBody{
     pub desc: Option<CustomDenomEmoneyDesc>, // only on SHOPEEPAY or type emoney
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CustomDenomEmoneyDesc {
-    pub amount: i32,
+    pub amount: i64,
 }
 
 // post request to get the inquiry
