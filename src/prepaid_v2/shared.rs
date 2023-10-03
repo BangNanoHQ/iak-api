@@ -1,6 +1,7 @@
+use serde_enum_str::{Deserialize_enum_str, Serialize_enum_str};
 use serde_repr::Serialize_repr;
 use thiserror::Error;
-use std::fmt;
+use std::fmt::{self, Display};
 use serde::{Deserialize, Deserializer, Serialize};
 
 
@@ -10,8 +11,7 @@ pub const DEV_PREPAID_V2: &str = "https://prepaid.iak.dev/api";
 pub const PROD_PREPAID_V2: &str = "https://prepaid.iak.id/api";
 
 
-
-#[derive(Serialize, PartialEq, Debug, Clone)]
+#[derive(Serialize_enum_str, PartialEq, Deserialize_enum_str, Debug, Clone)]
 pub enum ProductType {
     #[serde(rename = "pulsa")]
     Pulsa,
@@ -23,46 +23,79 @@ pub enum ProductType {
     Voucher,
     #[serde(rename = "game")]
     Game,
+    #[serde(rename="emeterai")]
+    Emeterai,
     #[serde(rename = "pln")]
     Pln,
+    
+    #[serde(rename = "malaysia")]
+    Malaysia,
+    #[serde(rename = "thailand")]
+    Thailand,
+    #[serde(rename = "philipines")]
+    Philipines,
+    #[serde(rename = "singapore")]
+    Singapore,
+    #[serde(rename = "taiwan")]
+    Taiwan,
+    #[serde(rename = "bangladesh")]
+    Bangladesh,
+    #[serde(rename = "indonesia")]
+    Indonesia,
+    #[serde(rename = "nepal")]
+    Nepal,
+    #[serde(rename = "vietnam")]
+    Vietnam,
+    #[serde(rename = "srilanka")]
+    Srilanka,
+    #[serde(rename = "korea")]
+    Korea,
+    #[serde(rename = "china")]
+    China,
+    
+    #[serde(other)]
+    Other(String),
+}
+
+#[derive(Serialize_enum_str, PartialEq, Deserialize_enum_str, Debug, Clone)]
+pub enum ProductCategory {
+    #[serde(rename = "pulsa")]
+    Pulsa,
+    #[serde(rename = "data")]
+    Data,
+    #[serde(rename = "etoll")]
+    Etoll,
+    #[serde(rename = "voucher")]
+    Voucher,
+    #[serde(rename = "game")]
+    Game,
+    #[serde(rename = "emeterai")]
+    Emeterai,
+    #[serde(rename = "pln")]
+    Pln,
+
     #[serde(rename = "international")]
     International,
-    Other(String)
+    #[serde(rename = "bicara")]
+    Bicara,
+    #[serde(rename = "streaming")]
+    Streaming,
+    #[serde(rename = "emoney")]
+    Emoney,
+    #[serde(rename = "taiwan")]
+    Taiwan,
+    #[serde(rename = "indonesia")]
+    Indonesia,
+    #[serde(rename = "korea")]
+    Korea,
+    #[serde(rename = "singapore")]
+    Singapore,
+
+    #[serde(other)]
+    Other(String),
 }
 
-impl fmt::Display for ProductType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ProductType::Pulsa => write!(f, "pulsa"),
-            ProductType::Data => write!(f, "data"),
-            ProductType::Etoll => write!(f, "etoll"),
-            ProductType::Voucher => write!(f, "voucher"),
-            ProductType::Game => write!(f, "game"),
-            ProductType::Pln => write!(f, "pln"),
-            ProductType::International => write!(f, "international"),
-            ProductType::Other(s) => write!(f, "{}", s),
-        }
-    }
-}
 
-impl<'de> Deserialize<'de> for ProductType {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let s: String = Deserialize::deserialize(deserializer)?;
-        match s.as_str() {
-            "pulsa" => Ok(ProductType::Pulsa),
-            "data" => Ok(ProductType::Data),
-            "etoll" => Ok(ProductType::Etoll),
-            "voucher" => Ok(ProductType::Voucher),
-            "game" => Ok(ProductType::Game),
-            "pln" => Ok(ProductType::Pln),
-            "international" => Ok(ProductType::International),
-            _ => Ok(ProductType::Other(s))
-        }
-    }
-}
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ProductTypeOperator {
@@ -78,13 +111,22 @@ pub enum ProductTypeOperator {
     Game,
     #[serde(rename = "pln")]
     Pln(PlnOperator),
-    #[serde(rename = "international")]
-    International,
+    
+    // International
+    Bangladesh(BangladeshOperator),
+    China(ChinaOperator),
+    Malaysia(MalaysiaOperator),
+    Philipines(PhilipinesOperator),
+    Singapore(SingaporeOperator),
+    Taiwan(TaiwanOperator),
+    Thailand(ThailandOperator),
+    Vietnam(VietnamOperator),
+    Korea,
 }
 
 
 
-#[derive(Serialize, PartialEq, Debug, Clone)]
+#[derive(Serialize_enum_str, PartialEq, Deserialize_enum_str, Debug, Clone)]
 pub enum PulsaOperator{
     #[serde(rename = "axis")]
     Axis,
@@ -100,29 +142,12 @@ pub enum PulsaOperator{
     XixiGames,
     #[serde(rename = "xl")]
     Xl,
+    #[serde(rename = "by.u")]
+    Byu,
+
+    #[serde(other)]
     Other(String),
 }
-impl<'de> Deserialize<'de> for PulsaOperator {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-
-        let s: String = Deserialize::deserialize(deserializer)?;
-        match s.as_str() {
-            "axis" => Ok(PulsaOperator::Axis),
-            "indosat" => Ok(PulsaOperator::Indosat),
-            "smart" => Ok(PulsaOperator::Smart),
-            "telkomsel" => Ok(PulsaOperator::Telkomsel),
-            "three" => Ok(PulsaOperator::Three),
-            "xixi_games" => Ok(PulsaOperator::XixiGames),
-            "xl" => Ok(PulsaOperator::Xl),
-            _ => Ok(PulsaOperator::Other(s))
-        }
-    }
-}
-
-
 
 
 #[derive(Serialize, PartialEq, Debug, Clone)]
@@ -256,6 +281,89 @@ pub enum PlnOperator {
     #[serde(rename = "pln")]
     Pln,
 }
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum BangladeshOperator {
+    #[serde(rename = "bangladesh_topup")]
+    BangladeshTopup,
+}
+
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum ChinaOperator {
+    #[serde(rename = "china_topup")]
+    ChinaTopup,
+}
+
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum MalaysiaOperator {
+    #[serde(rename = "malaysia_topup")]
+    MalaysiaTopup,
+    #[serde(rename = "celcom")]
+    Celcom,
+    #[serde(rename = "digi")]
+    Digi,
+    #[serde(rename = "maxis")]
+    Maxis,
+    #[serde(rename = "tunetalk")]
+    Tunetalk,
+    #[serde(rename = "umobile")]
+    Umobile,
+    #[serde(rename = "xox")]
+    Xox,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum PhilipinesOperator {
+    #[serde(rename = "globe")]
+    Globe,
+    #[serde(rename = "smart")]
+    Smart,
+    #[serde(rename = "sun_telecom")]
+    SunTelecom,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum SingaporeOperator {
+    #[serde(rename = "m1")]
+    M1,
+    #[serde(rename = "singtel")]
+    Singtel,
+    #[serde(rename = "starhub")]
+    Starhub,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum TaiwanOperator {
+    #[serde(rename = "chunghwa")]
+    Chunghwa,
+    #[serde(rename = "if_taiwan_topup")]
+    IfTaiwanTopup,
+    #[serde(rename = "ok_taiwan_topup")]
+    OkTaiwanTopup,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum ThailandOperator {
+    #[serde(rename = "thailand_topup")]
+    ThailandTopup,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[non_exhaustive]
+pub enum VietnamOperator {
+    #[serde(rename = "vietnam_topup")]
+    VietnamTopup,
+}
+
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ResponseCode {

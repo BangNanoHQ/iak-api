@@ -1,6 +1,6 @@
 use std::path::Path;
 use serde::{Deserialize, Serialize};
-use super::{ResponseCode, api_url, ProductType};
+use super::{ResponseCode, api_url, ProductType, ProductCategory};
 use crate::{Error, username, api_key, sign_hash};
 
 
@@ -25,11 +25,11 @@ pub struct Product {
     pub product_nominal: String,
     pub product_details: String,
     pub product_price: i64,
-    pub product_type: ProductType,
+    pub product_type: Option<ProductType>,
     pub active_period: String,
     pub status: String,
     pub icon_url: String,
-    pub product_category: ProductType,
+    pub product_category: Option<ProductCategory>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

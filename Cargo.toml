@@ -16,3 +16,4 @@ md5= "0.7.0"
 ulid="1.1.0"
 uuid = { version = "0.8.2", features = ["v4", "serde"] }
 serde_repr = "0.1.16"
+serde-enum-str = "0.4.0"
