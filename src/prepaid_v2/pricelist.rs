@@ -81,8 +81,9 @@ pub async fn pricelist(product_type_path: Option<String>, product_code: Option<S
     let body = res.text().await.map_err(|e| Error::ResponseError(e.to_string()))?;;
     let result: PricelistResponse = serde_json::from_str(&body).map_err(|e| Error::ResponseError(e.to_string()))?;
 
+    let data = result.data.clone().ok_or(Error::ResponseError("No Data".to_string()))?;
+
     if let Some(product_code) = product_code {
-        let data = result.data.clone().unwrap();
         let pricelist = data.pricelist.unwrap_or_default();
         let filtered = pricelist.into_iter().filter(|p| p.product_code == product_code).collect::<Vec<Product>>();
         return Ok(PricelistData {
@@ -93,5 +94,5 @@ pub async fn pricelist(product_type_path: Option<String>, product_code: Option<S
         });
     }
 
-    Ok(result.data.unwrap())
+    Ok(data)
 }
