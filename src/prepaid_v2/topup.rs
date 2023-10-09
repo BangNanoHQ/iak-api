@@ -93,7 +93,7 @@ pub async fn topup(product_code: String, ref_id: Uuid, customer_id: String) -> R
       )));
   }
   let body = res.text().await.unwrap();
-  let result: TopupResponse = serde_json::from_str(&body).unwrap();
+  let result: TopupResponse = serde_json::from_str(&body).map_err(|e| Error::DeserializationError(e.to_string()))?;
   println!("result: {:?}", result);
   Ok(result.data.unwrap())
 }

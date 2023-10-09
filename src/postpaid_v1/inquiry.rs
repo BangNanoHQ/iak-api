@@ -108,6 +108,6 @@ pub async fn inquiry(req_body: InquiryReqBody) -> Result<PaymentData, Error> {
     }
     let body = res.text().await.unwrap();
     println!("original resp body: {}", body);
-    let result: InquiryResponse = serde_json::from_str(&body).unwrap();
+    let result: InquiryResponse = serde_json::from_str(&body).map_err(|e| Error::DeserializationError(e.to_string()))?;
     Ok(result.data.unwrap())
 }

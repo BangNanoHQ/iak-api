@@ -46,7 +46,7 @@ pub async fn check_status(ref_id: Uuid) -> Result<TopupData, Error> {
       )));
   }
   let body = res.text().await.unwrap();
-  let result: TopupResponse = serde_json::from_str(&body).unwrap();
+  let result: TopupResponse = serde_json::from_str(&body).map_err(|e| Error::DeserializationError(e.to_string()))?;
   println!("result: {:?}", result);
   Ok(result.data.unwrap())
 }

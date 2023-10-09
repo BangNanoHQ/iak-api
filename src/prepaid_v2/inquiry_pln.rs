@@ -66,8 +66,8 @@ pub async fn inquiry_pln(customer_id: String) -> Result<InquiryPlnData, Error> {
           res.status()
       )));
   }
-  let body = res.text().await.unwrap();
-  let result: InquiryPlnResponse = serde_json::from_str(&body).unwrap();
+  let body = res.text().await.map_err(|e| Error::ResponseError(e.to_string()))?;
+  let result: InquiryPlnResponse = serde_json::from_str(&body).map_err(|e| Error::DeserializationError(e.to_string()))?;
   println!("result: {:?}", result);
   Ok(result.data.unwrap())
 }

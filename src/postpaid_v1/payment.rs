@@ -85,6 +85,6 @@ pub async fn payment(tr_id: u32) -> Result<PaymentData, Error> {
     }
     let body = res.text().await.unwrap();
     println!("original resp body: {}", body);
-    let result: PaymentResponse = serde_json::from_str(&body).unwrap();
+    let result: PaymentResponse = serde_json::from_str(&body).map_err(|e| Error::DeserializationError(e.to_string()))?;
     Ok(result.data.unwrap())
 }

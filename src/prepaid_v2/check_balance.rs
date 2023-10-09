@@ -55,7 +55,7 @@ pub async fn check_balance() -> Result<BalanceData, Error> {
       )));
   }
   let body = res.text().await.unwrap();
-  let result: BalanceResponse = serde_json::from_str(&body).unwrap();
+  let result: BalanceResponse = serde_json::from_str(&body).map_err(|e| Error::DeserializationError(e.to_string()))?;
   println!("result: {:?}", result);
   Ok(result.data.unwrap())
 }
