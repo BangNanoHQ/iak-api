@@ -38,7 +38,7 @@ pub struct PricelistReqBody {
 }
 
 // post request to get the pricelist
-pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistData, Error> {
+pub async fn pricelist(product_type_path: Option<String>, product_code: Option<String>) -> Result<PricelistData, Error> {
     let mut path: Vec<String> = vec!["bill/check".to_string()];
 
     if let Some(product_type_path) = product_type_path {
@@ -77,6 +77,20 @@ pub async fn pricelist(product_type_path: Option<String>) -> Result<PricelistDat
         )));
     }
     let body = res.text().await.unwrap();
-    let result: PricelistResponse = serde_json::from_str(&body).unwrap();
-    Ok(result.data.unwrap())
+    let result: PricelistResponse = serde_json::from_str(&body).map_err(|e| Error::ResponseError(e.to_string()))?;
+
+    let data = result.data.clone().ok_or(Error::ResponseError("No Data".to_string()))?;
+
+    if let Some(product_code) = product_code {
+        let pricelist = data.pasca.unwrap_or_default();
+        let filtered = pricelist.into_iter().filter(|p| p.code == product_code).collect::<Vec<Product>>();
+        return Ok(PricelistData {
+            pasca: Some(filtered),
+            status: data.status,
+            response_code: data.response_code,
+            message: data.message,
+        });
+    }
+
+    Ok(data)
 }

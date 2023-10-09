@@ -78,7 +78,7 @@ pub async fn pricelist(product_type_path: Option<String>, product_code: Option<S
             res.status()
         )));
     }
-    let body = res.text().await.map_err(|e| Error::ResponseError(e.to_string()))?;;
+    let body = res.text().await.map_err(|e| Error::ResponseError(e.to_string()))?;
     let result: PricelistResponse = serde_json::from_str(&body).map_err(|e| Error::ResponseError(e.to_string()))?;
 
     let data = result.data.clone().ok_or(Error::ResponseError("No Data".to_string()))?;
