@@ -19,6 +19,14 @@ pub enum Error {
     Unknown,
 }
 
+// generate signature data username + api_key + any text
+pub fn generate_iak_signature(text: String) -> String {
+    let username = username();
+    let api_key = api_key();
+    sign_hash(&format!("{}{}{}", username, api_key, text))
+}
+  
+
 pub fn username() -> String {
     match std::env::var("IAK_API_USERNAME") {
         Ok(val) => val,
