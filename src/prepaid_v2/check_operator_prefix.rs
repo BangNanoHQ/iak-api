@@ -115,7 +115,11 @@ const BYU_PREFIXES: [&str; 5] = ["085154", "085155", "085156", "085157", "085158
 
 // create a function that takes a phone number and returns the operator also to use variart of +62
 pub fn check_operator_prefix(phone_number: String) -> Option<OperatorResponse> {
-    let phone_number = phone_number.replace("+62", "0");
+    let phone_number = if phone_number.starts_with("+62") {
+        phone_number.replacen("+62", "0", 1)
+    } else {
+        phone_number
+    };
 
     // pattern match the phone number to the prefix list
     match phone_number.get(0..6) {
