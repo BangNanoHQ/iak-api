@@ -57,6 +57,51 @@ pub struct TopupData {
     pub sign: Option<String>,
 }
 
+// convert from TopupCallbackData into TopupData
+impl TryFrom<TopupCallbackData> for TopupData{
+    type Error = Error;
+    fn try_from(data: TopupCallbackData) -> Result<Self, Self::Error> {
+        Ok(TopupData {
+            ref_id: Some(data.ref_id),
+            status: data.status,
+            product_code: Some(data.product_code),
+            customer_id: Some(data.customer_id),
+            price: Some(data.price.parse::<i64>().unwrap()),
+            message: data.message,
+            sn: data.sn,
+            pin: data.pin,
+            balance: Some(data.balance.parse::<i64>().unwrap()),
+            tr_id: Some(data.tr_id.parse::<i64>().unwrap()),
+            rc: data.rc,
+            sign: Some(data.sign),
+        })
+    }
+} 
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct TopupCallbackResponse {
+    pub data: Option<TopupCallbackData>,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct TopupCallbackData {
+    pub ref_id: String,
+    pub status: ResponseStatus,
+    pub product_code: String,
+    pub customer_id: String,
+    pub price: String,
+    pub message: String,
+    pub sn: Option<String>,
+
+    pub pin: Option<String>,
+    pub balance: String,
+    pub tr_id: String,    
+    pub rc: ResponseCode,
+    pub sign: String,
+}
+
+
+
 
 // post request to check-balance
 pub async fn topup(product_code: String, ref_id: Uuid, customer_id: String) -> Result<TopupData, Error> {
