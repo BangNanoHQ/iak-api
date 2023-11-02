@@ -24,7 +24,7 @@ pub struct Product {
     pub fee: i64,
     pub komisi: i64, 
     pub r#type: ProductType,
-    pub category: String,
+    pub category: Option<String>,
     pub province: Option<String>, // 34 provinces in indonesia, only for PDAM
 
 }
